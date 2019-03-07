@@ -1,5 +1,6 @@
 package com.example.tp_02;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -66,10 +67,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
             String str = mData.get(position);
-            int number = Integer.parseInt(mData.get(position));
+            int number = Integer.parseInt(str);
             myViewHolder.mTextView.setText(str);
             if (isOdd(number))
                 myViewHolder.mTextView.setBackgroundColor(getResources().getColor(R.color.myLightBlue));
+            else
+                myViewHolder.mTextView.setBackgroundColor(Color.WHITE);
         }
 
         @Override
