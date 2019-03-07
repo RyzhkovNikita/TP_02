@@ -19,6 +19,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
+    public static final String ARRAY_KEY = "arrayKey";
     RecyclerView recyclerView;
     Button addBtn;
     EditText editText;
@@ -32,8 +33,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addBtn = findViewById(R.id.add_button);
         editText = findViewById(R.id.editText);
 
-        ArrayList<String> strings = new ArrayList<>();
-        fillList(strings);
+        ArrayList<String> strings;
+        if (savedInstanceState != null && savedInstanceState.containsKey(ARRAY_KEY)) {
+            strings = savedInstanceState.getStringArrayList(ARRAY_KEY);
+        } else {
+            strings = new ArrayList<>();
+            fillList(strings);
+        }
 
         recyclerView.setAdapter(new MyAdapter(strings));
         addBtn.setOnClickListener(this);
@@ -66,6 +72,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList(ARRAY_KEY, new ArrayList<>(((MyAdapter) recyclerView.getAdapter()).getDataList()));
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
