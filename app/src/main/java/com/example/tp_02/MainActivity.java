@@ -8,31 +8,61 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     RecyclerView recyclerView;
+    Button addBtn;
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        recyclerView = findViewById(R.id.my_list);
+        addBtn = findViewById(R.id.add_button);
+        editText = findViewById(R.id.editText);
+
         ArrayList<String> strings = new ArrayList<>();
         fillList(strings);
 
-        recyclerView = findViewById(R.id.my_list);
         recyclerView.setAdapter(new MyAdapter(strings));
+        addBtn.setOnClickListener(this);
     }
 
     void fillList(List<String> toFill) {
         for (int i = 0; i < 200; i++) {
             toFill.add(Integer.toString(i + 1));
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.add_button:
+                String text = editText.getText().toString();
+                if (text.isEmpty())
+                    Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show();
+                else {
+                    try {
+                        int number = Integer.parseInt(text);
+                        ((MyAdapter) recyclerView.getAdapter()).getDataList().add(text);
+                        recyclerView.getAdapter().notifyItemInserted(((MyAdapter) recyclerView.getAdapter()).getDataList().size());
+                        editText.setText("");
+                        Toast.makeText(this, "Inserted", Toast.LENGTH_SHORT).show();
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(this, "Wrong format", Toast.LENGTH_SHORT).show();
+                    }
+                }
         }
     }
 
@@ -62,13 +92,16 @@ public class MainActivity extends AppCompatActivity {
             return new MyViewHolder(v);
         }
 
-        //TODO: check string-to-int parsing
+        List<String> getDataList() {
+            return mData;
+        }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
             String str = mData.get(position);
-            int number = Integer.parseInt(str);
             myViewHolder.mTextView.setText(str);
+
+            int number = getIntFrom(str);
             if (isOdd(number))
                 myViewHolder.mTextView.setBackgroundColor(getResources().getColor(R.color.myLightBlue));
             else
@@ -83,6 +116,16 @@ public class MainActivity extends AppCompatActivity {
         /*Check if number is odd*/
         boolean isOdd(int number) {
             return number % 2 == 1;
+        }
+
+        /*get int from String or get 0 by default*/
+        int getIntFrom(String intStr) {
+            try {
+                return Integer.parseInt(intStr);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                return 0;
+            }
         }
     }
 }
