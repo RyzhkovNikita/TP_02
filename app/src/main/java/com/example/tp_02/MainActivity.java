@@ -56,7 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         int number = Integer.parseInt(text);
                         ((MyAdapter) recyclerView.getAdapter()).getDataList().add(text);
-                        recyclerView.getAdapter().notifyItemInserted(((MyAdapter) recyclerView.getAdapter()).getDataList().size());
+                        int lastPosition = ((MyAdapter) recyclerView.getAdapter()).getDataList().size();
+                        recyclerView.getAdapter().notifyItemInserted(lastPosition);
+                        recyclerView.scrollToPosition(lastPosition - 1);
                         editText.setText("");
                         Toast.makeText(this, "Inserted", Toast.LENGTH_SHORT).show();
                     } catch (NumberFormatException e) {
