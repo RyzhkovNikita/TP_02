@@ -1,19 +1,12 @@
 package com.example.tp_02;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,12 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView mTextView;
-        ImageView mImageView;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             mTextView = itemView.findViewById(R.id.text);
-            mImageView = itemView.findViewById(R.id.avatar);
         }
     }
 
@@ -70,16 +61,25 @@ public class MainActivity extends AppCompatActivity {
             return new MyViewHolder(v);
         }
 
+        //TODO: check string-to-int parsing
+
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-            String str = mData.get(i);
+        public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
+            String str = mData.get(position);
+            int number = Integer.parseInt(mData.get(position));
             myViewHolder.mTextView.setText(str);
-            myViewHolder.mImageView.setBackground(getDrawable(R.drawable.ic_launcher_foreground));
+            if (isOdd(number))
+                myViewHolder.mTextView.setBackgroundColor(getResources().getColor(R.color.myLightBlue));
         }
 
         @Override
         public int getItemCount() {
             return mData.size();
+        }
+
+        /*Check if number is odd*/
+        boolean isOdd(int number) {
+            return number % 2 == 1;
         }
     }
 }

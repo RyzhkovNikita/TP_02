@@ -15,5 +15,5 @@
         app:layoutManager="GridLayoutManager"
         app:reverseLayout="false"
         app:spanCount="4"
-        android:background="#d0d0d0"/>
+        android:background="@color/myGrey" />
 </LinearLayout>
