@@ -33,21 +33,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addBtn = findViewById(R.id.add_button);
         editText = findViewById(R.id.editText);
 
-        ArrayList<String> strings;
+        ArrayList<Integer> integers;
         if (savedInstanceState != null && savedInstanceState.containsKey(ARRAY_KEY)) {
-            strings = savedInstanceState.getStringArrayList(ARRAY_KEY);
+            integers = savedInstanceState.getIntegerArrayList(ARRAY_KEY);
         } else {
-            strings = new ArrayList<>();
-            fillList(strings);
+            integers = new ArrayList<>();
+            fillList(integers);
         }
 
-        recyclerView.setAdapter(new MyAdapter(strings));
+        recyclerView.setAdapter(new MyAdapter(integers));
         addBtn.setOnClickListener(this);
     }
 
-    void fillList(List<String> toFill) {
-        for (int i = 0; i < 200; i++) {
-            toFill.add(Integer.toString(i + 1));
+    void fillList(List<Integer> toFill) {
+        for (int i = 0; i < 100; i++) {
+            toFill.add(i + 1);
         }
     }
 
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else {
                     try {
                         int number = Integer.parseInt(text);
-                        ((MyAdapter) recyclerView.getAdapter()).getDataList().add(text);
+                        ((MyAdapter) recyclerView.getAdapter()).getDataList().add(number);
                         int lastPosition = ((MyAdapter) recyclerView.getAdapter()).getDataList().size();
                         recyclerView.getAdapter().notifyItemInserted(lastPosition);
                         recyclerView.scrollToPosition(lastPosition - 1);
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putStringArrayList(ARRAY_KEY, new ArrayList<>(((MyAdapter) recyclerView.getAdapter()).getDataList()));
+        outState.putIntegerArrayList(ARRAY_KEY, new ArrayList<>(((MyAdapter) recyclerView.getAdapter()).getDataList()));
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -91,9 +91,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-        private List<String> mData;
+        private List<Integer> mData;
 
-        MyAdapter(List<String> data) {
+        MyAdapter(List<Integer> data) {
             super();
             this.mData = data;
         }
@@ -106,16 +106,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return new MyViewHolder(v);
         }
 
-        List<String> getDataList() {
-            return mData;
+        List<Integer> getDataList() {
+            if (mData != null)
+                return mData;
+            else
+                return new ArrayList<>();
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
-            String str = mData.get(position);
-            myViewHolder.mTextView.setText(str);
+            int number = mData.get(position);
+            myViewHolder.mTextView.setText(number);
 
-            int number = getIntFrom(str);
             if (isOdd(number)) {
                 myViewHolder.mTextView.setTextColor(getResources().getColor(R.color.myBlue));
                 myViewHolder.mTextView.setBackgroundColor(getResources().getColor(R.color.myLightBlue));
@@ -133,16 +135,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*Check if number is odd*/
         boolean isOdd(int number) {
             return number % 2 == 1;
-        }
-
-        /*get int from String or get 0 by default*/
-        int getIntFrom(String intStr) {
-            try {
-                return Integer.parseInt(intStr);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                return 0;
-            }
         }
     }
 }
