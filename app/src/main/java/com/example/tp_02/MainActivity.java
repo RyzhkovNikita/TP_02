@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,12 +81,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         outState.putIntegerArrayList(ARRAY_KEY, new ArrayList<>(((MyAdapter) recyclerView.getAdapter()).getDataList()));
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView mTextView;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             mTextView = itemView.findViewById(R.id.text);
+            mTextView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Log.d(TAG, "onClick: " + v.getClass().getName() + " " + position);
+            //TODO: normal listener for view
         }
     }
 
@@ -116,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
             int number = mData.get(position);
-            myViewHolder.mTextView.setText(number);
+            myViewHolder.mTextView.setText(String.valueOf(number));
 
             if (isOdd(number)) {
                 myViewHolder.mTextView.setTextColor(getResources().getColor(R.color.myBlue));

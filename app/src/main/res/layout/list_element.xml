@@ -9,13 +9,15 @@
     <TextView
         android:id="@+id/text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="#FFF"
         android:ellipsize="end"
         android:gravity="center"
         android:lines="1"
-        android:textSize="30sp"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:textSize="20sp"
         tools:text="Test text" />
 
 </LinearLayout>
