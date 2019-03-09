@@ -1,6 +1,5 @@
 package com.example.tp_02;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public static final String ARRAY_KEY = "arrayKey";
+    public static final String TAG = "MyLogs";
     RecyclerView recyclerView;
     Button addBtn;
     EditText editText;
@@ -116,10 +116,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             myViewHolder.mTextView.setText(str);
 
             int number = getIntFrom(str);
-            if (isOdd(number))
+            if (isOdd(number)) {
+                myViewHolder.mTextView.setTextColor(getResources().getColor(R.color.myBlue));
                 myViewHolder.mTextView.setBackgroundColor(getResources().getColor(R.color.myLightBlue));
-            else
-                myViewHolder.mTextView.setBackgroundColor(Color.WHITE);
+            } else {
+                myViewHolder.mTextView.setTextColor(getResources().getColor(R.color.myRed));
+                myViewHolder.mTextView.setBackgroundColor(getResources().getColor(R.color.myLightRed));
+            }
         }
 
         @Override
