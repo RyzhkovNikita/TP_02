@@ -3,7 +3,6 @@ package com.example.tp_02;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,17 +31,6 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return new MyViewHolder(v);
     }
 
-    public void setOnNumberClickListener(OnNumberClickListener onNumberClickListener) {
-        this.mOnNumberClickListener = onNumberClickListener;
-    }
-
-    List<Integer> getDataList() {
-        if (mData != null)
-            return mData;
-        else
-            return new ArrayList<>();
-    }
-
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
         int number = mData.get(position);
@@ -62,12 +50,24 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return mData.size();
     }
 
+    void setOnNumberClickListener(OnNumberClickListener onNumberClickListener) {
+        this.mOnNumberClickListener = onNumberClickListener;
+    }
+
+    List<Integer> getDataList() {
+        if (mData != null)
+            return mData;
+        else
+            return new ArrayList<>();
+    }
+
+
     /*Check if number is odd*/
     private boolean isOdd(int number) {
         return number % 2 == 1;
     }
 
-    public interface OnNumberClickListener {
+    interface OnNumberClickListener {
         void onNumberClick(int number, boolean isOdd);
     }
 
@@ -82,11 +82,10 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         @Override
         public void onClick(View v) {
-            int position = getAdapterPosition();
-            Log.d(MainActivity.TAG, "onClick: " + v.getClass().getName() + " " + position + ", and layout position " + getLayoutPosition());
-            int number = mData.get(position);
+            if (mOnNumberClickListener == null)             //if there is no listener, finish method
+                return;
+            int number = mData.get(getAdapterPosition());
             mOnNumberClickListener.onNumberClick(number, isOdd(number));
-            //TODO: normal listener for view
         }
     }
 }
