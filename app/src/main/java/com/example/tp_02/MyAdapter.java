@@ -74,10 +74,10 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
-            Log.d(MainActivity.TAG, "onClick: " + v.getClass().getName() + " " + position);
+            Log.d(MainActivity.TAG, "onClick: " + v.getClass().getName() + " " + position + ", and layout position " + getLayoutPosition());
             //TODO: normal listener for view
-            mData.remove(getLayoutPosition());
-
+            mData.remove(position);
+            MyAdapter.this.notifyItemRemoved(position);
         }
     }
 }
