@@ -3,6 +3,7 @@ package com.example.tp_02;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -43,6 +44,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         recyclerView.setLayoutAnimation(animation);
         recyclerView.setAdapter(new MyAdapter(this, integers));
+        ((MyAdapter) recyclerView.getAdapter()).setOnNumberClickListener(new MyAdapter.OnNumberClickListener() {
+            @Override
+            public void onNumberClick(int number, boolean isOdd) {
+                Log.d(TAG, "onNumberClick: " + number + " isOdd " + (isOdd ? "yes" : "no"));
+            }
+        });
         addBtn.setOnClickListener(this);
     }
 

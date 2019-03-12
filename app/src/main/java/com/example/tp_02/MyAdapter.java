@@ -16,6 +16,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private List<Integer> mData;
     private Context mContext;
+    private OnNumberClickListener mOnNumberClickListener;
 
     MyAdapter(Context context, List<Integer> data) {
         super();
@@ -29,6 +30,10 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View v = inflater.inflate(R.layout.list_element, viewGroup, false);
         return new MyViewHolder(v);
+    }
+
+    public void setOnNumberClickListener(OnNumberClickListener onNumberClickListener) {
+        this.mOnNumberClickListener = onNumberClickListener;
     }
 
     List<Integer> getDataList() {
@@ -62,6 +67,10 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return number % 2 == 1;
     }
 
+    public interface OnNumberClickListener {
+        void onNumberClick(int number, boolean isOdd);
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView mTextView;
 
@@ -75,9 +84,9 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public void onClick(View v) {
             int position = getAdapterPosition();
             Log.d(MainActivity.TAG, "onClick: " + v.getClass().getName() + " " + position + ", and layout position " + getLayoutPosition());
+            int number = mData.get(position);
+            mOnNumberClickListener.onNumberClick(number, isOdd(number));
             //TODO: normal listener for view
-            mData.remove(position);
-            MyAdapter.this.notifyItemRemoved(position);
         }
     }
 }
