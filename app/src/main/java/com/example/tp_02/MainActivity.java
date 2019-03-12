@@ -2,6 +2,7 @@ package com.example.tp_02;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_anim_fall_down);
 
         recyclerView.setLayoutAnimation(animation);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new MyAdapter(this, integers));
         addBtn.setOnClickListener(this);
     }

@@ -3,14 +3,16 @@ package com.example.tp_02;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private List<Integer> mData;
     private Context mContext;
@@ -56,7 +58,26 @@ class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     }
 
     /*Check if number is odd*/
-    boolean isOdd(int number) {
+    private boolean isOdd(int number) {
         return number % 2 == 1;
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView mTextView;
+
+        MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mTextView = itemView.findViewById(R.id.text);
+            mTextView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Log.d(MainActivity.TAG, "onClick: " + v.getClass().getName() + " " + position);
+            //TODO: normal listener for view
+            mData.remove(getLayoutPosition());
+
+        }
     }
 }

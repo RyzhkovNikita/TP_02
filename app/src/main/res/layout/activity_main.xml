@@ -13,13 +13,12 @@
         android:layout_marginTop="5dp"
         android:layoutMode="clipBounds"
         android:orientation="vertical"
-        app:layoutManager="GridLayoutManager"
+        app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:reverseLayout="false"
-        app:spanCount="3" />
+        app:reverseLayout="false" />
 
     <Button
         android:id="@+id/add_button"
