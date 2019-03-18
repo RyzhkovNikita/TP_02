@@ -44,12 +44,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         recyclerView.setLayoutAnimation(animation);
         recyclerView.setAdapter(new MyAdapter(this, integers));
-        ((MyAdapter) recyclerView.getAdapter()).setOnNumberClickListener(new MyAdapter.OnNumberClickListener() {
-            @Override
-            public void onNumberClick(int number, boolean isOdd) {
-                Log.d(TAG, "onNumberClick: " + number + " isOdd " + (isOdd ? "yes" : "no"));
-            }
-        });
+        if (recyclerView.getAdapter() != null)
+            ((MyAdapter) recyclerView.getAdapter()).setOnNumberClickListener(new MyAdapter.OnNumberClickListener() {
+                @Override
+                public void onNumberClick(int number, boolean isOdd) {
+                    Log.d(TAG, "onNumberClick: " + number + " isOdd " + (isOdd ? "yes" : "no"));
+                }
+            });
         addBtn.setOnClickListener(this);
     }
 
@@ -69,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else {
                     try {
                         int number = Integer.parseInt(text);
+                        if (recyclerView.getAdapter() == null) {
+                            Toast.makeText(this, "Adapter is null", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         ((MyAdapter) recyclerView.getAdapter()).getDataList().add(number);
                         int lastPosition = ((MyAdapter) recyclerView.getAdapter()).getDataList().size();
                         recyclerView.getAdapter().notifyItemInserted(lastPosition);
@@ -85,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putIntegerArrayList(ARRAY_KEY, new ArrayList<>(((MyAdapter) recyclerView.getAdapter()).getDataList()));
+        if (recyclerView.getAdapter() != null) {
+            outState.putIntegerArrayList(ARRAY_KEY, new ArrayList<>(((MyAdapter) recyclerView.getAdapter()).getDataList()));
+        }
     }
 }
