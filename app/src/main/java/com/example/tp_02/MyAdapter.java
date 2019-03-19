@@ -71,6 +71,8 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         void onNumberClick(int number, boolean isOdd);
     }
 
+
+
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView mTextView;
 
@@ -88,4 +90,6 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             mOnNumberClickListener.onNumberClick(number, isOdd(number));
         }
     }
+
+
 }
