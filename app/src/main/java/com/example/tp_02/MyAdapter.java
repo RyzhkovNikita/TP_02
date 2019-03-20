@@ -62,16 +62,14 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
 
-    /*Check if number is odd*/
+    /*Check if mNumber is odd*/
     private boolean isOdd(int number) {
         return number % 2 == 1;
     }
 
     interface OnNumberClickListener {
-        void onNumberClick(int number, boolean isOdd);
+        void onNumberClick(List<Integer> data, int number, boolean isOdd);
     }
-
-
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView mTextView;
@@ -84,10 +82,10 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         @Override
         public void onClick(View v) {
-            if (mOnNumberClickListener == null)             //if there is no listener, finish method
+            if (mOnNumberClickListener == null)             //if there is no listener, finish method, else call onNumberClick
                 return;
             int number = mData.get(getAdapterPosition());
-            mOnNumberClickListener.onNumberClick(number, isOdd(number));
+            mOnNumberClickListener.onNumberClick(mData, number, isOdd(number));
         }
     }
 
