@@ -1,7 +1,5 @@
 package com.example.tp_02;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,22 +25,25 @@ public class NumberFragment extends Fragment {
 
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(INT_KEY)
-                && savedInstanceState.containsKey(IS_ODD_KEY)){
+                && savedInstanceState.containsKey(IS_ODD_KEY)) {
             mNumber = savedInstanceState.getInt(INT_KEY);
             isOdd = savedInstanceState.getBoolean(IS_ODD_KEY);
         }
 
         mTextView.setText(String.valueOf(mNumber));
-        if (isOdd) {
-            mTextView.setTextColor(getContext().getResources().getColor(R.color.myBlue));
-            mTextView.setBackgroundColor(getContext().getResources().getColor(R.color.myLightBlue));
-        } else {
-            mTextView.setTextColor(getContext().getResources().getColor(R.color.myRed));
-            mTextView.setBackgroundColor(getContext().getResources().getColor(R.color.myLightRed));
+        if (getContext() != null) {
+            if (isOdd) {
+                mTextView.setTextColor(getContext().getResources().getColor(R.color.myBlue));
+                mTextView.setBackgroundColor(getContext().getResources().getColor(R.color.myLightBlue));
+            } else {
+                mTextView.setTextColor(getContext().getResources().getColor(R.color.myRed));
+                mTextView.setBackgroundColor(getContext().getResources().getColor(R.color.myLightRed));
+            }
         }
         return view;
     }
 
+    // calls before onCreateView
     public void setNumber(int number, boolean isOdd) {
         this.mNumber = number;
         this.isOdd = isOdd;

@@ -27,7 +27,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mIntList = ((MainActivity) getActivity()).getSavedData();
+        if (getActivity() != null)
+            mIntList = ((MainActivity) getActivity()).getSavedData();
     }
 
     @Nullable
@@ -36,6 +37,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         mRecyclerView = view.findViewById(R.id.my_list);
         mEditText = view.findViewById(R.id.editText);
+
         if (mIntList == null) {
             if (savedInstanceState != null && savedInstanceState.containsKey(ARRAY_KEY)) {
                 mIntList = savedInstanceState.getIntegerArrayList(ARRAY_KEY);

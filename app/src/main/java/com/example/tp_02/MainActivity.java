@@ -30,6 +30,17 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnNumbe
         }
     }
 
+    /**
+    this method works when you click on textView in recyclerView
+     it gets 3 parameters:
+     -data that we need to save into Activity for restoring fragment with RecyclerView
+     -number to show and boolean if it is odd
+     i carry this boolean through the whole program because i don't want make isOdd method of Adapter public
+     and want hide logic in Adapter
+     */
+    /*
+        method save adapters list and replace list fragment with number fragment
+     */
     @Override
     public void onNumberClick(List<Integer> data, int number, boolean isOdd) {
         list = new ArrayList<>(data);
@@ -42,12 +53,16 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnNumbe
         transaction.commit();
     }
 
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putIntegerArrayList(MyFragment.ARRAY_KEY, list);
     }
 
+    /*
+        return saved list in MyFragment.java in OnCreate
+     */
     public ArrayList<Integer> getSavedData(){
         return list;
     }
