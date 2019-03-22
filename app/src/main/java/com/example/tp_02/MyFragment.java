@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -46,9 +44,9 @@ public class MyFragment extends Fragment implements View.OnClickListener {
             }
         }
 
-        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_anim_fall_down);
+      /*  LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_anim_fall_down);
 
-        mRecyclerView.setLayoutAnimation(animation);
+        mRecyclerView.setLayoutAnimation(animation);*/
         mRecyclerView.setAdapter(new MyAdapter(getContext(), mIntList));
 
         if (mRecyclerView.getAdapter() != null) {
@@ -93,7 +91,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    ArrayList<Integer> hundredNumbersList() {
+    private ArrayList<Integer> hundredNumbersList() {
         ArrayList<Integer> list = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             list.add(i + 1);

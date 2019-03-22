@@ -13,11 +13,11 @@ import java.util.List;
 
 class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    private List<Integer> mData;
+    private ArrayList<Integer> mData;
     private Context mContext;
     private OnNumberClickListener mOnNumberClickListener;
 
-    MyAdapter(Context context, List<Integer> data) {
+    MyAdapter(Context context, ArrayList<Integer> data) {
         super();
         this.mData = data;
         this.mContext = context;
