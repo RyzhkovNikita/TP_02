@@ -58,10 +58,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_anim_fall_down);
         mRecyclerView.setLayoutAnimation(animation);
 
-        MyAdapter.OnNumberClickListener activityListener = null;
-        if (mRecyclerView.getAdapter() != null) {
-            activityListener = (MyAdapter.OnNumberClickListener) getActivity();
-        }
+        MyAdapter.OnNumberClickListener activityListener = (MyAdapter.OnNumberClickListener) getActivity();
 
         mRecyclerView.setAdapter(new MyAdapter(getContext(), intList, activityListener));
 
