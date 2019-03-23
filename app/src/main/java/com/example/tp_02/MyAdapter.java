@@ -66,9 +66,9 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     void addNumber(int number) {
-        this.mData.add(number);
+        mData.add(number);
         int lastPosition = mData.size() - 1;
-        this.notifyItemInserted(lastPosition);
+        notifyItemInserted(lastPosition);
     }
 
     interface OnNumberClickListener {

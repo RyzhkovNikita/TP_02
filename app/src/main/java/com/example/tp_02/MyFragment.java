@@ -28,7 +28,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getActivity() != null)
-            mDataGetter = ((MainActivity) getActivity());
+            mDataGetter = (DataGetter) getActivity();
     }
 
     interface DataGetter {
