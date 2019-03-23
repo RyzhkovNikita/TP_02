@@ -18,22 +18,10 @@ import java.util.ArrayList;
 public class MyFragment extends Fragment implements View.OnClickListener {
 
     public static final String ARRAY_KEY = "arrayKey";
-    public static final String TAG = "MyLogs";
 
     private RecyclerView mRecyclerView;
     private EditText mEditText;
-    private DataGetter mDataGetter;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getActivity() != null)
-            mDataGetter = (DataGetter) getActivity();
-    }
-
-    interface DataGetter {
-        ArrayList<Integer> getSavedData();
-    }
+    private ArrayList<Integer> mIntList;
 
     @Nullable
     @Override
@@ -42,16 +30,11 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         mRecyclerView = view.findViewById(R.id.my_list);
         mEditText = view.findViewById(R.id.editText);
 
-        ArrayList<Integer> intList = null;
-
-        if (mDataGetter != null)
-            intList = mDataGetter.getSavedData();
-
-        if (intList == null) {
+        if (mIntList == null) {
             if (savedInstanceState != null && savedInstanceState.containsKey(ARRAY_KEY)) {
-                intList = savedInstanceState.getIntegerArrayList(ARRAY_KEY);
+                mIntList = savedInstanceState.getIntegerArrayList(ARRAY_KEY);
             } else {
-                intList = hundredNumbersList();
+                mIntList = hundredNumbersList();
             }
         }
 
@@ -60,7 +43,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 
         MyAdapter.OnNumberClickListener activityListener = (MyAdapter.OnNumberClickListener) getActivity();
 
-        mRecyclerView.setAdapter(new MyAdapter(getContext(), intList, activityListener));
+        mRecyclerView.setAdapter(new MyAdapter(getContext(), mIntList, activityListener));
 
         view.findViewById(R.id.add_button).setOnClickListener(this);
         return view;

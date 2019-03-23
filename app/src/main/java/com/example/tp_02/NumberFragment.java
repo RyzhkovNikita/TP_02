@@ -12,10 +12,11 @@ import android.widget.TextView;
 
 public class NumberFragment extends Fragment {
 
+    public static final String INT_KEY = "intNumberKey";
+    public static final String IS_ODD_KEY = "isNumberOddKey";
+
     private int mNumber;
     private boolean isOdd;
-    public static String INT_KEY = "intNumberKey";
-    public static String IS_ODD_KEY = "isNumberOddKey";
 
     @Nullable
     @Override
