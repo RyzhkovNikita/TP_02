@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MyAdapter.OnNumberClickListener {
+public class MainActivity extends AppCompatActivity implements MyAdapter.OnNumberClickListener, MyFragment.DataGetter {
 
     ArrayList<Integer> list;
 
@@ -31,12 +31,12 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnNumbe
     }
 
     /**
-    this method works when you click on textView in recyclerView
-     it gets 3 parameters:
-     -data that we need to save into Activity for restoring fragment with RecyclerView
-     -number to show and boolean if it is odd
-     i carry this boolean through the whole program because i don't want make isOdd method of Adapter public
-     and want hide logic in Adapter
+     * this method works when you click on textView in recyclerView
+     * it gets 3 parameters:
+     * -data that we need to save into Activity for restoring fragment with RecyclerView
+     * -number to show and boolean if it is odd
+     * i carry this boolean through the whole program because i don't want make isOdd method of Adapter public
+     * and want hide logic in Adapter
      */
     /*
         method save adapters list and replace list fragment with number fragment
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnNumbe
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         NumberFragment fragment = new NumberFragment();
         fragment.setNumber(number, isOdd);
+        transaction.setTransition(4);
         transaction.replace(R.id.my_fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -60,10 +61,12 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnNumbe
         outState.putIntegerArrayList(MyFragment.ARRAY_KEY, list);
     }
 
+    @Override
+    public ArrayList<Integer> getSavedData() {
+        return list;
+    }
+
     /*
         return saved list in MyFragment.java in OnCreate
      */
-    public ArrayList<Integer> getSavedData(){
-        return list;
-    }
 }

@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,13 +22,17 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private EditText mEditText;
-    private ArrayList<Integer> mIntList;
+    private DataGetter mDataGetter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getActivity() != null)
-            mIntList = ((MainActivity) getActivity()).getSavedData();
+            mDataGetter = ((MainActivity) getActivity());
+    }
+
+    interface DataGetter {
+        ArrayList<Integer> getSavedData();
     }
 
     @Nullable
@@ -36,23 +42,28 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         mRecyclerView = view.findViewById(R.id.my_list);
         mEditText = view.findViewById(R.id.editText);
 
-        if (mIntList == null) {
+        ArrayList<Integer> intList = null;
+
+        if (mDataGetter != null)
+            intList = mDataGetter.getSavedData();
+
+        if (intList == null) {
             if (savedInstanceState != null && savedInstanceState.containsKey(ARRAY_KEY)) {
-                mIntList = savedInstanceState.getIntegerArrayList(ARRAY_KEY);
+                intList = savedInstanceState.getIntegerArrayList(ARRAY_KEY);
             } else {
-                mIntList = hundredNumbersList();
+                intList = hundredNumbersList();
             }
         }
 
-      /*  LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_anim_fall_down);
+        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_anim_fall_down);
+        mRecyclerView.setLayoutAnimation(animation);
 
-        mRecyclerView.setLayoutAnimation(animation);*/
-        mRecyclerView.setAdapter(new MyAdapter(getContext(), mIntList));
-
+        MyAdapter.OnNumberClickListener activityListener = null;
         if (mRecyclerView.getAdapter() != null) {
-            MyAdapter.OnNumberClickListener activityListener = (MyAdapter.OnNumberClickListener) getActivity();
-            ((MyAdapter) mRecyclerView.getAdapter()).setOnNumberClickListener(activityListener);
+            activityListener = (MyAdapter.OnNumberClickListener) getActivity();
         }
+
+        mRecyclerView.setAdapter(new MyAdapter(getContext(), intList, activityListener));
 
         view.findViewById(R.id.add_button).setOnClickListener(this);
         return view;
@@ -79,10 +90,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(getContext(), "Adapter is null", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ((MyAdapter) mRecyclerView.getAdapter()).getDataList().add(number);
-                int lastPosition = ((MyAdapter) mRecyclerView.getAdapter()).getDataList().size();
-                mRecyclerView.getAdapter().notifyItemInserted(lastPosition);
-                mRecyclerView.scrollToPosition(lastPosition - 1);
+                ((MyAdapter) mRecyclerView.getAdapter()).addNumber(number);
                 mEditText.setText("");
                 Toast.makeText(getContext(), "Inserted", Toast.LENGTH_SHORT).show();
             } catch (NumberFormatException e) {

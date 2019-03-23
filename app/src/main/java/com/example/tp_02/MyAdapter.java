@@ -17,10 +17,11 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private Context mContext;
     private OnNumberClickListener mOnNumberClickListener;
 
-    MyAdapter(Context context, ArrayList<Integer> data) {
+    MyAdapter(Context context, ArrayList<Integer> data, OnNumberClickListener listener) {
         super();
         this.mData = data;
         this.mContext = context;
+        this.mOnNumberClickListener = listener;
     }
 
     @NonNull
@@ -50,9 +51,6 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return mData.size();
     }
 
-    void setOnNumberClickListener(OnNumberClickListener onNumberClickListener) {
-        this.mOnNumberClickListener = onNumberClickListener;
-    }
 
     List<Integer> getDataList() {
         if (mData != null)
@@ -65,6 +63,12 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     /*Check if mNumber is odd*/
     private boolean isOdd(int number) {
         return number % 2 == 1;
+    }
+
+    void addNumber(int number) {
+        this.mData.add(number);
+        int lastPosition = mData.size() - 1;
+        this.notifyItemInserted(lastPosition);
     }
 
     interface OnNumberClickListener {
