@@ -23,6 +23,16 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     private EditText mEditText;
     private ArrayList<Integer> mIntList;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null && savedInstanceState.containsKey(ARRAY_KEY)) {
+            mIntList = savedInstanceState.getIntegerArrayList(ARRAY_KEY);
+        } else {
+            mIntList = hundredNumbersList();
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -30,13 +40,6 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         mRecyclerView = view.findViewById(R.id.my_list);
         mEditText = view.findViewById(R.id.editText);
 
-        if (mIntList == null) {
-            if (savedInstanceState != null && savedInstanceState.containsKey(ARRAY_KEY)) {
-                mIntList = savedInstanceState.getIntegerArrayList(ARRAY_KEY);
-            } else {
-                mIntList = hundredNumbersList();
-            }
-        }
 
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_anim_fall_down);
         mRecyclerView.setLayoutAnimation(animation);

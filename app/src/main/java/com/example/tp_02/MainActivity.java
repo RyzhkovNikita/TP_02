@@ -41,12 +41,13 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnNumbe
      */
     @Override
     public void onNumberClick(int number, int textColorId, int bgColorId) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         NumberFragment fragment = new NumberFragment();
         fragment.setNumberConfig(number, textColorId, bgColorId);
-        transaction.replace(R.id.my_fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.my_fragment_container, fragment).
+                addToBackStack(null).
+                commit();
     }
 
 }
