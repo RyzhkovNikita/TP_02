@@ -87,9 +87,10 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         return list;
     }
 
+
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDetach() {
+        super.onDetach();
         mRecyclerView = null;
         mEditText = null;
     }

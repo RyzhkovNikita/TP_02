@@ -13,10 +13,12 @@ import android.widget.TextView;
 public class NumberFragment extends Fragment {
 
     public static final String INT_KEY = "intNumberKey";
-    public static final String IS_ODD_KEY = "isNumberOddKey";
+    public static final String INT_TEXT_COLOR_ID = "intTextColorId";
+    public static final String INT_BG_COLOR_ID = "intBgColorId";
 
     private int mNumber;
-    private boolean isOdd;
+    private int mTextColorId;
+    private int mBgColorId;
 
     @Nullable
     @Override
@@ -26,34 +28,32 @@ public class NumberFragment extends Fragment {
 
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(INT_KEY)
-                && savedInstanceState.containsKey(IS_ODD_KEY)) {
+                && savedInstanceState.containsKey(INT_TEXT_COLOR_ID)
+                && savedInstanceState.containsKey(INT_BG_COLOR_ID)) {
             mNumber = savedInstanceState.getInt(INT_KEY);
-            isOdd = savedInstanceState.getBoolean(IS_ODD_KEY);
+            mTextColorId = savedInstanceState.getInt(INT_TEXT_COLOR_ID);
+            mBgColorId = savedInstanceState.getInt(INT_BG_COLOR_ID);
         }
 
         mTextView.setText(String.valueOf(mNumber));
-        if (getContext() != null) {
-            if (isOdd) {
-                mTextView.setTextColor(getContext().getResources().getColor(R.color.myBlue));
-                mTextView.setBackgroundColor(getContext().getResources().getColor(R.color.myLightBlue));
-            } else {
-                mTextView.setTextColor(getContext().getResources().getColor(R.color.myRed));
-                mTextView.setBackgroundColor(getContext().getResources().getColor(R.color.myLightRed));
-            }
-        }
+
+        mTextView.setTextColor(mTextColorId);
+        mTextView.setBackgroundColor(mBgColorId);
         return view;
     }
 
     // calls before onCreateView
-    public void setNumber(int number, boolean isOdd) {
-        this.mNumber = number;
-        this.isOdd = isOdd;
+    public void setNumberConfig(int number, int textColorId, int bgColorId) {
+        mNumber = number;
+        mTextColorId = textColorId;
+        mBgColorId = bgColorId;
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(INT_KEY, mNumber);
-        outState.putBoolean(IS_ODD_KEY, isOdd);
+        outState.putInt(INT_TEXT_COLOR_ID, mTextColorId);
+        outState.putInt(INT_BG_COLOR_ID, mBgColorId);
     }
 }

@@ -1,6 +1,8 @@
 package com.example.tp_02;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -72,7 +74,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     interface OnNumberClickListener {
-        void onNumberClick(int number, boolean isOdd);
+        void onNumberClick(int number, int textColorId, int bgColorId);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -89,7 +91,15 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             if (mOnNumberClickListener == null)             //if there is no listener, finish method, else call onNumberClick
                 return;
             int number = mData.get(getAdapterPosition());
-            mOnNumberClickListener.onNumberClick(number, isOdd(number));
+            Drawable drawable = mTextView.getBackground();
+            if (drawable instanceof ColorDrawable) {
+                int bgColorId = ((ColorDrawable) drawable).getColor();
+                mOnNumberClickListener.onNumberClick(number,
+                        mTextView.getCurrentTextColor(),
+                        bgColorId);
+            }
+
+
         }
     }
 
