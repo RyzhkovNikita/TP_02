@@ -2,7 +2,6 @@ package com.example.tp_02;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -23,9 +22,9 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnNumbe
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.my_fragment_container);
 
         if (fragment == null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.my_fragment_container, new MyFragment());
-            transaction.commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.my_fragment_container, new MyFragment())
+                    .commit();
         }
     }
 
@@ -45,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnNumbe
         fragment.setNumberConfig(number, textColorId, bgColorId);
 
         getSupportFragmentManager().beginTransaction().
-                replace(R.id.my_fragment_container, fragment).
-                addToBackStack(null).
-                commit();
+                replace(R.id.my_fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
 }
